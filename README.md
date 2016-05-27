@@ -1,36 +1,23 @@
-# bitlbee Dockerfile
-This repository contains **Dockerfile** of [*bitlbee*](https://github.com/bitlbee/bitlbee), for [Docker](https://www.docker.com/)'s [automated build](https://registry.hub.docker.com/u/mbologna/bitlbee/) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
-
-## Base Docker image
-
-* fedora/latest
-
 ## Installation
 
-1. Install [Docker](https://www.docker.com/).
+# build from Dockerfile on github
+`docker build -t="danhimalplanet/docker-bitlbee" github.com/danhimalplanet/docker-bitlbee/`
 
-2. Download [automated build](https://registry.hub.docker.com/u/mbologna/docker-bitlbee/) from public [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull mbologna/docker-bitlbee`
-
-   (alternatively, you can build an image from Dockerfile: `docker build -t="mbologna/docker-bitlbee" github.com/mbologna/docker-bitlbee`)
+# or build locally
+# customize etc/bitlbee/bitlbee.conf to suit your needs
+`docker build -t="danhimalplanet/docker-bitlbee" docker-bitlbee/`
 
 ## Usage
 
-### (optional and only for those who build the image) configure bitlbee
-
-customize etc/bitlbee/bitlbee.conf to suit your needs
-
 ### run bitlbee
 
-`docker run -d --name bitlbee -p 16667:6667 --restart=always mbologna/docker-bitlbee`
+`docker run -d --name bitlbee -p 16667:6667 --restart=always danhimalplanet/docker-bitlbee:latest`
 
-### run bitlbee with persistent config file (`username.xml`)
+### run bitlbee with persistent config file (`username.xml`) in /home/danh/bitlbee/
+ 
+`docker run -d --name bitlbee -p 16667:6667 --restart=always -v /var/lib/bitlbee:/var/lib/bitlbee danhimalplanet/docker-bitlbee:latest`
 
-`docker run -d --name bitlbee -p 16667:6667 --restart=always -v <data-dir>:/var/lib/bitlbee mbologna/docker-bitlbee`
+### run bitlbee with persistent config file (`username.xml`) in /home/danh/bitlbee/ when selinux is on in the host
 
-## Contributing
+`docker run -d --name bitlbee -p 16667:6667 --restart=always -v /var/lib/bitlbee:/var/lib/bitlbee:z danhimalplanet/docker-bitlbee:latest`
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
