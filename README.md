@@ -13,11 +13,11 @@
 
 `docker run -d --name bitlbee -p 16667:6667 --restart=always danhimalplanet/docker-bitlbee:latest`
 
-### run bitlbee with persistent config file (`username.xml`) in /home/danh/bitlbee/
+### run bitlbee with persistent config files (`username.xml`) in /var/lib/bitlbee/ on host
  
 `docker run -d --name bitlbee -p 16667:6667 --restart=always -v /var/lib/bitlbee:/var/lib/bitlbee danhimalplanet/docker-bitlbee:latest`
 
-### run bitlbee with persistent config file (`username.xml`) in /home/danh/bitlbee/ when selinux is on in the host
+### run bitlbee with persistent config file (`username.xml`) in /var/lib/bitlbee/ when selinux is on in the host
 
 `docker run -d --name bitlbee -p 16667:6667 --restart=always -v /var/lib/bitlbee:/var/lib/bitlbee:z danhimalplanet/docker-bitlbee:latest`
 
