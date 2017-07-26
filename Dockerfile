@@ -97,6 +97,7 @@ RUN touch /var/run/bitlbee.pid && \
 USER bitlbee
 EXPOSE 16667
 
-ENV BITLBEE_DEBUG=1
-
-CMD [ "/usr/local/sbin/bitlbee", "-Dnv", "-c", "/usr/local/etc/bitlbee/bitlbee.conf", "-n", "-u", "bitlbee" ]
+CMD [ "/usr/local/sbin/bitlbee", "-c", "/usr/local/etc/bitlbee/bitlbee.conf", "-n", "-u", "bitlbee" ]
+# use this instead for debugging
+#ENV BITLBEE_DEBUG=1
+#CMD [ "/usr/local/sbin/bitlbee", "-Dnv", "-c", "/usr/local/etc/bitlbee/bitlbee.conf", "-n", "-u", "bitlbee" ]
