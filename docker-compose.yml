@@ -1,0 +1,21 @@
+# docker-compose.yml
+
+version: '2'
+
+services:
+
+  bitlbee:
+    container_name: bitlbee
+    restart: unless-stopped
+    build: .
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - "/var/lib/bitlbee:/var/lib/bitlbee:z"
+    ports:
+      - 127.0.0.1:16667:6667
+
+networks:
+  default:
+    external:
+      name: traefikproxy_webgateway
