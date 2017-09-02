@@ -1,5 +1,3 @@
-# Dockerfile
-
 FROM buildpack-deps
 
 WORKDIR /
@@ -7,21 +5,16 @@ WORKDIR /
 RUN groupadd -g 994 bitlbee 
 RUN useradd -ms /sbin/nologin -u 996 -g 994 -d /var/lib/bitlbee bitlbee
 
-#COPY build/get-sources.sh /get-sources.sh
-
 RUN cd && \
 
-apt-get update && apt-get install -y --no-install-recommends autoconf automake gettext gcc git libtool make dpkg-dev libglib2.0-dev libotr5-dev libpurple-dev libgnutls28-dev libjson-glib-dev libprotobuf-c-dev protobuf-c-compiler mercurial unzip && \
-cd && \
+apt-get update && apt-get install -y --no-install-recommends autoconf \
+	automake gettext gcc git libtool libtool-bin make dpkg-dev \
+        libglib2.0-dev libhttp-parser-dev libmarkdown2-dev libotr5-dev \
+        libpurple-dev libgnutls28-dev libjson-glib-dev libprotobuf-c-dev \
+        protobuf-c-compiler mercurial unzip && \
+	cd && \
 
-# libpurple-rocketchat
-apt-get install -y libmarkdown2-dev && \
-cd && \
-
-# libpurple-matrix
-apt-get install -y libhttp-parser-dev && \
-cd && \
-
+# bitlbee
 git clone https://github.com/bitlbee/bitlbee.git && \
 cd bitlbee && \
 ./configure --jabber=1 --otr=1 --purple=1 && \
@@ -31,41 +24,63 @@ make install-etc && \
 make install-dev && \
 cd && \
 
+# facebook plugin for bitlbee
 git clone https://github.com/bitlbee/bitlbee-facebook.git && \
 cd bitlbee-facebook && \
 ./autogen.sh && \
 make && \
 make install && \
+libtool --finish /usr/local/lib/bitlbee && \
 cd && \  
 
+# hangouts plugin for libpurple
 hg clone https://bitbucket.org/EionRobb/purple-hangouts && \
 cd purple-hangouts && \
 make && \
 make install && \
+libtool --finish /usr/local/lib/bitlbee && \
 cd && \
 
+# rocketchat plugin for libpurple
 hg clone https://bitbucket.org/EionRobb/purple-rocketchat && \
 cd purple-rocketchat && \
 make && \
 make install && \
+libtool --finish /usr/local/lib/bitlbee && \
 cd && \
 
+# matrix plugin for libpurple
 git clone https://github.com/EionRobb/purple-matrix && \
 cd purple-matrix && \
 make && \
 make install && \
+libtool --finish /usr/local/lib/bitlbee && \
 cd && \
 
+# discord plugin for libpurple
 git clone https://github.com/EionRobb/purple-discord && \
 cd purple-discord && \
 make && \
 make install && \
+libtool --finish /usr/local/lib/bitlbee && \
 cd && \
 
+# mattermost plugin for libpurple
 git clone https://github.com/EionRobb/purple-mattermost && \
 cd purple-mattermost && \
 make && \
 make install && \
+libtool --finish /usr/local/lib/bitlbee && \
+cd && \
+
+# discord plugin for bitlbee
+git clone https://github.com/sm00th/bitlbee-discord && \
+cd bitlbee-discord && \
+./autogen.sh && \
+./configure && \
+make && \
+make install && \
+libtool --finish /usr/local/lib/bitlbee && \
 cd && \
 
 apt-get autoremove -y --purge autoconf automake gcc git libtool make mercurial dpkg-dev && \
@@ -75,13 +90,14 @@ apt-get clean && \
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /tmp/* && \
 cd && \
 
-rm -fr bitlbee-master* && \
-rm -fr bitlbee-facebook* && \
-rm -rf purple-hangouts* && \
+rm -fr bitlbee-master && \
+rm -fr bitlbee-facebook && \
+rm -rf purple-hangouts && \
 rm -rf purple-rocketchat && \
 rm -rf purple-matrix && \
-rm -rf purple-discord && \
+rm -fr bitlbee-discord && \
 rm -rf purple-mattermost && \
+rm -rf purple-discord && \
 
 mkdir -p /var/lib/bitlbee && \
 chown -R bitlbee:bitlbee /var/lib/bitlbee* # dup: otherwise it won't be chown'ed when using volumes
