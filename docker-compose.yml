@@ -12,6 +12,7 @@ services:
       - "traefik.enable=false"
     volumes:
       - "/var/lib/bitlbee:/var/lib/bitlbee:z"
+      - '/etc/localtime:/etc/localtime:ro'
     ports:
       - 127.0.0.1:16667:6667
 
