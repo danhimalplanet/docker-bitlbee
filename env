@@ -1,4 +1,1 @@
-STORAGE=/Users/user/data/bitlbee
-#STORAGE=/var/lib/bitlbee
-
 EXTERNAL_PORT=16667
