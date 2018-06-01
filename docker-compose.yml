@@ -1,6 +1,6 @@
 # docker-compose.yml
 
-version: '3'
+version: '3.5'
 
 services:
 
@@ -8,9 +8,14 @@ services:
     container_name: bitlbee
     restart: unless-stopped
     build: .
+    image: facepalm/bitlbee:latest
     labels:
       - "traefik.enable=false"
-    volumes:
-      - ${STORAGE}:/var/lib/bitlbee:z
     ports:
       - 127.0.0.1:${EXTERNAL_PORT}:6667
+    networks:
+      - bitlbee
+
+networks:
+  bitlbee:
+    name: bitlbee
