@@ -2,6 +2,10 @@
 
 version: '3.5'
 
+volumes:
+  bitlbee-data:
+    name: bitlbee-data
+
 services:
 
   bitlbee:
@@ -15,6 +19,8 @@ services:
       - 127.0.0.1:${EXTERNAL_PORT}:6667
     networks:
       - bitlbee
+    volumes:
+      - bitlbee-data:/bitlbee-data
 
 networks:
   bitlbee:
