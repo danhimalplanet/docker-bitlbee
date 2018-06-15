@@ -11,8 +11,7 @@ services:
   bitlbee:
     container_name: bitlbee
     restart: unless-stopped
-    build: .
-    image: facepalm/bitlbee:latest
+    image: bitlbee:latest
     labels:
       - "traefik.enable=false"
     ports:
