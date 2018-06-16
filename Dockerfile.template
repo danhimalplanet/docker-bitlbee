@@ -7,6 +7,7 @@ ENV FACEBOOK_COMMIT facebook_commit
 ENV SKYPE_COMMIT skype_commit
 ENV SLACK_COMMIT slack_commit
 ENV TELEGRAM_COMMIT telegram_commit
+ENV HANGOUTS_COMMIT hangouts_commit
 
 RUN set -x \
     && apk update \
@@ -19,6 +20,7 @@ RUN set -x \
 	git \
 	json-glib-dev \
 	libtool \
+    mercurial \
     && apk add --virtual runtime-dependencies \
 	glib-dev \
 	gnutls-dev \
@@ -27,6 +29,9 @@ RUN set -x \
 	libpurple \
 	libwebp-dev \
 	pidgin-dev \
+    protobuf \
+    protobuf-c \
+    protobuf-c-dev \
     && cd /root \
     && git clone -n https://github.com/bitlbee/bitlbee \
     && cd bitlbee \
@@ -71,6 +76,13 @@ RUN set -x \
     && ./configure \
     && make \
     && make install \
+    && cd /root \
+    && hg clone https://bitbucket.org/EionRobb/purple-hangouts/ \
+    && cd purple-hangouts \
+    && hg checkout ${HANGOUTS_COMMIT} \
+    && make \
+    && make install \
+    && cd /root \
     && apk del --purge build-dependencies \
     && rm -rf /root/* \
     && rm -rf /var/cache/apk/* \
